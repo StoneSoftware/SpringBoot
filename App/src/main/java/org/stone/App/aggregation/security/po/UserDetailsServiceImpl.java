@@ -18,9 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String s)
 			throws UsernameNotFoundException {
-		String password = "12345";
+		String password = "123456";
 		User user = new User();
-		user.setUsername("admin");
+		user.setUsername("root");
 		user.setPassword(encoder.encode(password));
 		return new UserDetailsImpl(user);
 	}

@@ -70,17 +70,18 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/test/login")
 				.and()
 				.addFilterBefore(
-						new JWTAuthenticationFilter(authenticationManager()),
+						new JWTAuthenticationFilter("/test/login",
+								authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 				// 禁用session
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
-    @Bean
-    public HttpFirewall httpFirewall() {
-        return new DefaultHttpFirewall();
-    }
+
+	@Bean
+	public HttpFirewall httpFirewall() {
+		return new DefaultHttpFirewall();
+	}
 
 }

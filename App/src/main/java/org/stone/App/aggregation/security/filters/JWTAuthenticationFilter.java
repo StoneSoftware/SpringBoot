@@ -24,7 +24,8 @@ public class JWTAuthenticationFilter extends
 
 	private AuthenticationManager authenticationManager;
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public JWTAuthenticationFilter(String defaultFilterProcessesUrl,AuthenticationManager authenticationManager) {
+		setFilterProcessesUrl(defaultFilterProcessesUrl );
 		this.authenticationManager = authenticationManager;
 	}
 
