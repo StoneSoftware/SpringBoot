@@ -1,9 +1,13 @@
 package org.stone.App.aggregation.security.config;
 
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,8 +22,9 @@ import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.stone.App.aggregation.common.filter.CrossDomainFilter;
 import org.stone.App.aggregation.security.filters.JWTAuthenticationFilter;
-import org.stone.App.aggregation.security.filters.JWTAuthorizationFilter;
+import org.stone.App.aggregation.security.filters.TokenAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -73,7 +78,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 						new JWTAuthenticationFilter("/test/login",
 								authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
-				.addFilter(new JWTAuthorizationFilter(authenticationManager()))
+				.addFilter(new TokenAuthenticationFilter(authenticationManager()))
 				// 禁用session
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -82,6 +87,15 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Bean
 	public HttpFirewall httpFirewall() {
 		return new DefaultHttpFirewall();
+	}
+
+	@Bean
+	public FilterRegistrationBean<Filter> filterRegist() {
+		FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<Filter>();
+		registrationBean.setFilter(new CrossDomainFilter());
+		registrationBean.addUrlPatterns("/*");
+		registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return registrationBean;
 	}
 
 }
