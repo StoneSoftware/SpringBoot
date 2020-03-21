@@ -19,7 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.stone.core.system.security.exception.SystemAuthenticationEntryPoint;
-import org.stone.core.system.security.filters.JWTAuthenticationFilter;
+import org.stone.core.system.security.filters.UserAuthenticationFilter;
 import org.stone.core.system.security.filters.TokenAuthenticationFilter;
 
 @EnableWebSecurity
@@ -72,7 +72,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 				.addFilterBefore(
-						new JWTAuthenticationFilter("/test/login",
+						new UserAuthenticationFilter("/test/login",
 								authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
 				.addFilter(

@@ -19,12 +19,12 @@ import org.stone.core.system.security.vo.UserDetailsImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JWTAuthenticationFilter extends
+public class UserAuthenticationFilter extends
 		UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
 
-	public JWTAuthenticationFilter(String defaultFilterProcessesUrl,
+	public UserAuthenticationFilter(String defaultFilterProcessesUrl,
 			AuthenticationManager authenticationManager) {
 		setFilterProcessesUrl(defaultFilterProcessesUrl);
 		this.authenticationManager = authenticationManager;
